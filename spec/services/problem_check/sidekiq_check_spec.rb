@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe ProblemCheck::SidekiqCheck do
+# frozen_string_literal: true
+
+RSpec.describe ProblemCheck::SolidQueueCheck do
   subject(:check) { described_class.new }
 
   describe ".call" do
-    context "when Sidekiq processed a job recently" do
+    context "when SolidQueue processed a job recently" do
       before do
         Jobs.stubs(:last_job_performed_at).returns(1.minute.ago)
         Jobs.stubs(:queued).returns(1)
@@ -39,7 +41,7 @@ RSpec.describe ProblemCheck::SidekiqCheck do
 
       it do
         expect(check).to have_a_problem.with_priority("low").with_message(
-          'Sidekiq is not running. Many tasks, like sending emails, are executed asynchronously by Sidekiq. Please ensure at least one Sidekiq process is running. <a href="https://github.com/mperham/sidekiq" target="_blank">Learn about Sidekiq here</a>.',
+          'Background worker is not running. Many tasks, like sending emails, are executed asynchronously by a background job worker. Please ensure at least one SolidQueue process is running. <a href="https://github.com/basecamp/solid_queue" target="_blank">Learn about SolidQueue here</a>.',
         )
       end
     end
@@ -52,7 +54,7 @@ RSpec.describe ProblemCheck::SidekiqCheck do
 
       it do
         expect(check).to have_a_problem.with_priority("low").with_message(
-          'Sidekiq is not running. Many tasks, like sending emails, are executed asynchronously by Sidekiq. Please ensure at least one Sidekiq process is running. <a href="https://github.com/mperham/sidekiq" target="_blank">Learn about Sidekiq here</a>.',
+          'Background worker is not running. Many tasks, like sending emails, are executed asynchronously by a background job worker. Please ensure at least one SolidQueue process is running. <a href="https://github.com/basecamp/solid_queue" target="_blank">Learn about SolidQueue here</a>.',
         )
       end
     end
@@ -65,7 +67,7 @@ RSpec.describe ProblemCheck::SidekiqCheck do
 
       it do
         expect(check).to have_a_problem.with_priority("low").with_message(
-          "The number of queued jobs is 100000, which is high. This could indicate a problem with the Sidekiq process(es), or you may need to add more Sidekiq workers.",
+          "The number of queued jobs is 100000, which is high. This could indicate a problem with the SolidQueue process(es), or you may need to add more SolidQueue workers.",
         )
       end
     end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Discourse::Application.configure do
+  config.active_job.queue_adapter = :solid_queue
   # Settings specified here will take precedence over those in config/application.rb
 
   config.eager_load = true

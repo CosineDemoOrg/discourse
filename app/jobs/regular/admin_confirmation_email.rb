@@ -2,9 +2,10 @@
 
 module Jobs
   class AdminConfirmationEmail < ::Jobs::Base
-    sidekiq_options queue: "critical"
+    # queue priority is now determined by ActiveJob, set it via `queue_as` if needed
+    queue_as :critical
 
-    def execute(args)
+    def perform(args)
       to_address = args[:to_address]
       token = args[:token]
       target_email = args[:target_email]
