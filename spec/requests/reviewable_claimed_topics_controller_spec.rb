@@ -114,7 +114,7 @@ RSpec.describe ReviewableClaimedTopicsController do
         expect(response.status).to eq(409)
       end
 
-      it "queues a sidekiq job to refresh reviewable counts for users who can see the reviewable" do
+      it "enqueues a background job to refresh reviewable counts for users who can see the reviewable" do
         SiteSetting.navigation_menu = "sidebar"
         SiteSetting.enable_category_group_moderation = true
 
@@ -209,7 +209,7 @@ RSpec.describe ReviewableClaimedTopicsController do
       ).to eq(false)
     end
 
-    it "queues a sidekiq job to refresh reviewable counts for users who can see the reviewable" do
+    it "enqueues a background job to refresh reviewable counts for users who can see the reviewable" do
       SiteSetting.reviewable_claiming = "optional"
       SiteSetting.navigation_menu = "sidebar"
       SiteSetting.enable_category_group_moderation = true
