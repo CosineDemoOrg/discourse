@@ -4,7 +4,7 @@ module Jobs
   class CleanUpPostTimings < ::Jobs::Onceoff
     # Remove post timings that are remnants of previous post moves
     # or other shenanigans and don't reference a valid user or post anymore.
-    def execute_onceoff(args)
+    def perform(args)
       DB.exec <<~SQL
         DELETE
         FROM post_timings pt
