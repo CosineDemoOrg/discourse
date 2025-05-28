@@ -32,13 +32,8 @@ gem "mini_suffix"
 
 gem "redis"
 
-# This is explicitly used by Sidekiq and is an optional dependency.
-# We tell Sidekiq to use the namespace "sidekiq" which triggers this
-# gem to be used. There is no explicit dependency in sidekiq cause
-# redis namespace support is optional
-# We already namespace stuff in DiscourseRedis, so we should consider
-# just using a single implementation in core vs having 2 namespace implementations
-gem "redis-namespace"
+# solid_queue: ActiveJob backend for modern, reliable, database-backed job processing
+gem "solid_queue"
 
 # NOTE: AM serializer gets a lot slower with recent updates
 # we used an old branch which is the fastest one out there
@@ -93,7 +88,6 @@ gem "rake"
 gem "thor", require: false
 gem "diffy", require: false
 gem "rinku"
-gem "sidekiq"
 gem "mini_scheduler"
 
 gem "execjs", require: false
