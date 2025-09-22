@@ -30,7 +30,12 @@ export default class LoginMethod extends EmberObject {
 
   @discourseComputed
   title() {
-    return this.title_override || i18n(`login.${this.name}.title`);
+    // Prefer explicit override, then i18n, then pretty name, finally a humanized provider name.
+    const fallback = this.prettyName || this.name?.toString().replace(/_/g, " ");
+    return (
+      this.title_override ||
+      i18n(`login.${this.name}.title`, { defaultValue: fallback })
+    );
   }
 
   @discourseComputed
@@ -43,7 +48,13 @@ export default class LoginMethod extends EmberObject {
 
   @discourseComputed
   prettyName() {
-    return this.pretty_name_override || i18n(`login.${this.name}.name`);
+    // Prefer explicit override, then i18n, and finally a humanized provider name.
+    return (
+      this.pretty_name_override ||
+      i18n(`login.${this.name}.name`, {
+        defaultValue: this.name?.toString().replace(/_/g, " "),
+      })
+    );
   }
 
   doLogin({ reconnect = false, signup = false, params = {} } = {}) {
